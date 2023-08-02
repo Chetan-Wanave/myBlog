@@ -1,0 +1,269 @@
+install latest version of Python
+
+pip install flask
+
+set FLASK_APP=flaskblog.py
+
+$env:FLASK_APP="flaskblog.py"
+
+flask run
+
+form.validate_on_submit() => this method whether valid data is submitted or not
+
+flash module/class => It used to send alert
+
+installation of SQLite database
+
+pip install flask-sqlalchemy
+
+for current time and date we use
+
+    from datetime import datetime
+    datetime.utcnow()
+
+// Error to solve while creating database
+    from project_name import app, db
+    app.app_context().push()
+    db.create_all()
+
+    from flaskblog import User, Post
+    user_1 = User(username='chetanwanave',)
+
+    --------------------------------------
+
+    >>> from flaskblog import app, db
+    >>> app.app_context().push()
+    >>> db.create_all()
+    >>> from flaskblog import User, Post
+    >>> user_1 = User(username='chetanwanave',email='sjong0041@gmail.com',password='password')
+    >>> db.session.add(user_1)
+    >>> user_2 = User(username='Chetan012003',email='chetanwanave@gmail.com',password='110103')
+    >>> db.session.add(user_2)
+    >>> db.session.commit()
+
+    ------------------------------------
+
+    >>> User.query.all()
+    [User('chetanwanave','sjong0041@gmail.com','default.jpg'), User('Chetan012003','chetanwanave@gmail.com','default.jpg')]
+    >>> User.query.first()
+    User('chetanwanave','sjong0041@gmail.com','default.jpg')
+    >>> User.query.filter_by(username='chetanwanave').all()
+    [User('chetanwanave','sjong0041@gmail.com','default.jpg')]
+    >>> User.query.filter_by(username='chetanwanave').first()
+    User('chetanwanave','sjong0041@gmail.com','default.jpg')
+    >>> user = User.query.filter_by(username='chetanwanave').first()
+    >>> user
+    User('chetanwanave','sjong0041@gmail.com','default.jpg')
+    >>> user = User.query.get(2)
+    <stdin>:1: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    >>> user
+    User('Chetan012003','chetanwanave@gmail.com','default.jpg')
+    >>> user = User.query.get(1)
+    >>> user
+    User('chetanwanave','sjong0041@gmail.com','default.jpg')
+    >>> user.id
+    1
+    >>> user.password
+    'password'
+    >>> user.posts
+    []
+
+    ------------------------------------
+
+    >>> user.id
+    1
+    >>> post_1 = Post(title='Blog 1',content='My First Blog Here!',user_id=user.id)
+    >>> post_2 = Post(title='Blog 2',content='My Second Blog Here!',user_id=user.id)
+    >>> db.session.add(post_1)
+    >>> db.session.add(post_2)
+    >>> db.session.commit()
+    >>> user.posts
+    [Post('Blog 1','2023-06-12 07:57:07.596757'), Post('Blog 2','2023-06-12 07:57:07.596757')]
+    >>> for post in user.posts:
+    ...     print(post.content)
+    ...
+    KeyboardInterrupt
+    >>> for post in user.posts:
+    ...     print(post.content)
+    ...
+    My First Blog Here!
+    My Second Blog Here!
+    >>>
+    >>> post = Post.query.first()
+    >>> post
+    Post('Blog 1','2023-06-12 07:57:07.596757')
+    >>> post.user_id
+    1
+    >>> post.author
+    User('chetanwanave','sjong0041@gmail.com','default.jpg')
+    >>> db.drop_all()
+    >>> db.create_all()
+    >>> User.query.all()
+    []
+    >>> Post.query.all()
+    []
+    >>>
+
+-----------------Encryption of Password-----------------------
+
+pip install flask-bcrypt
+
+from flask_bcrypt import Bcrypt
+
+bcrypt = Bcrypt()
+
+hashed_pw = bcrypt.generate_password_hash('password').decode('utf-8')
+
+bcrypt.check_password_hash(hashed_pw,'password') => return true
+
+User.query.filter_by(username='abcd').first()
+
+User.query.get(int(user_id))
+
+pip install flask-login
+
+------- different methods expected by login manager in model------
+from flask-login import UserMixin
+1. fortobeexact
+2. isAuthenicated
+3. isActive
+4. isAnonymous
+5. getId
+
+---------------------------------
+
+using secrets module for generating random hex
+    random_hex = secrets.token_hex(8)
+
+----------------------------------
+
+importing os module for spltting file name and extension
+    fname, fext = os.path.splitext(form_picture.filename)
+
+    p_path = os.path.join(app.root_path,'static/images',pic_name)
+
+---------------------------------
+
+pip install pillow
+
+using this module for resizing image
+
+---------------------------------
+
+post.date_posted.strftime('%Y-%m-%d')
+
+formatting datetime
+-----------------------------
+
+>>> from flaskblog import app,db
+>>> app.app_context().push()
+>>> from flaskblog.models import Post
+>>> posts = Post.query.all()
+>>> posts
+[Post('This is my First Blog','2023-07-08 17:39:29.191555'), Post('Threads','2023-07-08 18:02:11.261833'), Post('Rohit Sharma','2023-07-09 09:58:28.497561'), Post('Fruits Basket & Me','2023-07-10 05:54:51.852795'), Post('This is 1st blog','2023-07-11 06:05:16.219362'), Post('Receipee for Chicken','2023-07-11 10:09:55.390937'), Post('Receipe for Maggie','2023-07-11 10:10:38.295605'), Post('JSPM College','2023-07-11 23:36:13.033536'), Post('Lakadi','2023-07-11 23:37:01.084795'), Post('Second Semester','2023-07-11 23:38:06.258400'), Post('Pune City','2023-07-11 23:39:17.652416'), Post('Topper','2023-07-11 23:40:53.115920'), Post('BAMS','2023-07-11 23:41:21.280507'), Post('NEET 2022','2023-07-11 23:41:42.559066'), Post('Moon','2023-07-11 23:41:56.735030'), Post('Lakadi','2023-07-11 23:42:12.610227'), Post('Chetan','2023-07-11 23:43:08.393119'), Post('Sangali','2023-07-11 23:43:32.362579'), Post('PVGCOET','2023-07-11 23:43:54.423622'), Post('Samiksha','2023-07-11 23:44:13.242588'), Post('Kundmala','2023-07-11 23:44:42.058377'), Post('Teasing Takagi San','2023-07-11 23:47:53.736860'), Post('Naruto','2023-07-11 23:48:08.437491'), Post('Mikey','2023-07-11 23:49:22.173170'), Post('Kakashi Hatake','2023-07-11 23:50:09.031906')]
+>>> posts = Post.query.paginate() 
+>>> for post in posts:
+...     print(post)
+...
+Post('This is my First Blog','2023-07-08 17:39:29.191555')
+Post('Threads','2023-07-08 18:02:11.261833')
+Post('Rohit Sharma','2023-07-09 09:58:28.497561')
+Post('Fruits Basket & Me','2023-07-10 05:54:51.852795')
+Post('This is 1st blog','2023-07-11 06:05:16.219362')
+Post('Receipee for Chicken','2023-07-11 10:09:55.390937')
+Post('Receipe for Maggie','2023-07-11 10:10:38.295605')
+Post('JSPM College','2023-07-11 23:36:13.033536')
+Post('Lakadi','2023-07-11 23:37:01.084795')
+Post('Second Semester','2023-07-11 23:38:06.258400')
+Post('Pune City','2023-07-11 23:39:17.652416')
+Post('Topper','2023-07-11 23:40:53.115920')
+Post('BAMS','2023-07-11 23:41:21.280507')
+Post('NEET 2022','2023-07-11 23:41:42.559066')
+Post('Moon','2023-07-11 23:41:56.735030')
+Post('Lakadi','2023-07-11 23:42:12.610227')
+Post('Chetan','2023-07-11 23:43:08.393119')
+Post('Sangali','2023-07-11 23:43:32.362579')
+Post('PVGCOET','2023-07-11 23:43:54.423622')
+Post('Samiksha','2023-07-11 23:44:13.242588')
+>>> posts.per_page
+20
+>>> posts = Post.query.paginate(page=2)
+>>> for post in posts:
+...     print(post)
+...
+Post('Kundmala','2023-07-11 23:44:42.058377')
+Post('Teasing Takagi San','2023-07-11 23:47:53.736860')
+Post('Naruto','2023-07-11 23:48:08.437491')
+Post('Mikey','2023-07-11 23:49:22.173170')
+Post('Kakashi Hatake','2023-07-11 23:50:09.031906')
+>>> posts = Post.query.paginate(page=5) 
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "C:\Users\ideapad\AppData\Local\Programs\Python\Python39\lib\site-packages\flask_sqlalchemy\query.py", line 99, in paginate      
+    return QueryPagination(
+  File "C:\Users\ideapad\AppData\Local\Programs\Python\Python39\lib\site-packages\flask_sqlalchemy\pagination.py", line 72, in __init__ 
+    abort(404)
+  File "C:\Users\ideapad\AppData\Local\Programs\Python\Python39\lib\site-packages\flask\helpers.py", line 277, in abort
+    current_app.aborter(code, *args, **kwargs)
+  File "C:\Users\ideapad\AppData\Local\Programs\Python\Python39\lib\site-packages\werkzeug\exceptions.py", line 861, in __call__        
+    raise self.mapping[code](*args, **kwargs)
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+>>> posts = Post.query.paginate(per_page=5) 
+>>> for post in posts:                      
+...     print(post)
+...
+Post('This is my First Blog','2023-07-08 17:39:29.191555')
+Post('Threads','2023-07-08 18:02:11.261833')
+Post('Rohit Sharma','2023-07-09 09:58:28.497561')
+Post('Fruits Basket & Me','2023-07-10 05:54:51.852795')
+Post('This is 1st blog','2023-07-11 06:05:16.219362')
+>>> posts = Post.query.paginate(per_page=2,page = 2)
+>>> for post in posts:
+...     print(post)
+...
+Post('Rohit Sharma','2023-07-09 09:58:28.497561')
+Post('Fruits Basket & Me','2023-07-10 05:54:51.852795')
+>>> posts = Post.query.paginate(per_page=5, page=2)
+>>> for post in posts:
+...     print(post)
+...                    
+...
+Post('Receipee for Chicken','2023-07-11 10:09:55.390937')
+Post('Receipe for Maggie','2023-07-11 10:10:38.295605')
+Post('JSPM College','2023-07-11 23:36:13.033536')
+Post('Lakadi','2023-07-11 23:37:01.084795')
+Post('Second Semester','2023-07-11 23:38:06.258400')
+>>> posts.total
+25
+>>>
+>>> for post in posts.iter_pages():
+...     print(post)
+...
+1
+2
+3
+4
+5
+None
+12
+13
+>>>
+-----------------------------------------------
+
+>>> from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+>>> s = Serializer('secret',30)
+>>> token = s.dumps({'user_id':1}).decode('utf-8')
+>>> token
+'eyJhbGciOiJIUzUxMiIsImlhdCI6MTY4OTcwNTQ5MywiZXhwIjoxNjg5NzA1NTIzfQ.eyJ1c2VyX2lkIjoxfQ.UdbVb18VwxnYce7YCY4wdhrSbNCVbH2IcMZJl2zJSzMpKdb7ACfmeL7lNXPVnUN7ra2lPd42nFqF50qBS8OwqA'
+>>> s.loads(token)
+{'user_id': 1}
+>>> s.loads(token)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "C:\Users\ideapad\AppData\Local\Programs\Python\Python39\lib\site-packages\itsdangerous\jws.py", line 233, in loads
+    raise SignatureExpired(
+itsdangerous.exc.SignatureExpired: Signature expired
+>>>
+
+----------------------------------
+
